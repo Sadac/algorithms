@@ -1,19 +1,18 @@
 /**
- * recursive sorting
+ * use of recursion to sort an array of numbers
  */
-const array = [4, 2, 29, 1, 0, 66, 3, 90];
+const data = [6, 1, 8, 4, 7, 6, 5, 4, 9];
 
-const sort = (arr) => {
-  for (let i = 0; i < array.length; i += 1) {
-    const current = arr[i];
-    if (current > arr[i + 1]) {
-      arr[i] = arr[i + 1];
-      arr[i + 1] = current;
-      sort(arr);
+const sort = (array) => {
+  for (let i = 0; i < array.length - 1; i += 1) {
+    const current = array[i];
+    if (current > array[i + 1]) {
+      array[i] = array[i + 1];
+      array[i + 1] = current;
+      sort(array);
     }
   }
-
-  return arr;
+  return array;
 };
-const result = sort(array);
+const result = sort(data);
 console.log(result);
