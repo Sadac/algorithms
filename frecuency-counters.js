@@ -84,10 +84,49 @@ const r4 = sameFrecuency([2, 3, 4], [4, 9, 16]); // true
 console.log(r1, r2, r3, r4);
 
 // frecuency counter with reduce
-const arr = [1, 1, 1, 2, 2, 2, 2, 5, 6, 7, 8, 9, 9];
-const ocurrences = arr.reduce((acum, el) => {
-  if (!acum[el]) acum[el] = 0;
-  if (Object.keys(el)) acum[el] += 1;
+const phrase = 'awesome phrase to be counted';
+const frecuency = phrase.split('').reduce((acum, p) => {
+  if (!acum[p]) acum[p] = 0;
+  if (acum.hasOwnProperty(p)) {
+    acum[p] += 1;
+  }
   return acum;
 }, {});
-console.log(ocurrences);
+console.log(JSON.stringify(frecuency));
+
+// frecuency counter with reduce and order and filter.
+const buses = ['Bus1', 'Bus2', 'Bus2', 'Bus3', 'Bus2', 'Bus3'];
+const counter = buses.reduce((acum, bus) => {
+  if (!acum[bus]) acum[bus] = 0;
+  if (acum.hasOwnProperty(bus)) acum[bus] += 1;
+  return acum;
+}, {});
+const entriesOrder = Object.entries(counter).sort((a, b) => b[1] - a[1]);
+const filterLarge = entriesOrder.filter((el) => el[1] > 1);
+const objData = {};
+filterLarge.forEach((element) => {
+  objData[element[0]] = element[1];
+});
+console.log(filterLarge, objData);
+
+// Anagram challenge with frecuency counter pattern
+// This problem can be solved by sorting the string and comparing as well
+const validAnagram = (word1, word2) => {
+  const countWords = (word) => word.split('').reduce((acum, w) => {
+    if (!acum.hasOwnProperty(w)) acum[w] = 0;
+    acum[w] += 1;
+    return acum;
+  }, {});
+  const objWord1 = countWords(word1); // frecuency counter object1
+  const objWord2 = countWords(word2); // frecuency counter object2
+
+  for (let i = 0; i < word1.length; i += 1) {
+    const letter = word1[i];
+    // for each letter check ocurrences number are the same in both objects
+    if (objWord1[letter] !== objWord2[letter]) return false;
+  }
+
+  return true;
+};
+const resultValidAnagram = validAnagram('anagrams', 'nagaram');
+console.log(resultValidAnagram);
